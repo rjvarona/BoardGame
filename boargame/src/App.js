@@ -19,15 +19,30 @@ debugger
 
 //squares
 const Square = (props) => {
-  if (props.index % 2 == 0) {
-    return (
-      <button style={{ width: "100px", height: "100px", backgroundColor: "black" }}>{props.value} </button>
-    );
+
+  if (props.startBlack) {
+    if (props.index % 2 == 0) {
+      return (
+        <button style={{ width: "100px", height: "100px", backgroundColor: "black" }}>{props.value} </button>
+      );
+    }
+    else {
+      return (
+        <button style={{ width: "100px", height: "100px" }}>{props.value} </button>
+      )
+    }
   }
-  else {
-    return (
-      <button style={{ width: "100px", height: "100px"}}>{props.value} </button>
-    )
+  else{
+    if (props.index % 2 == 0) {
+      return (
+        <button style={{ width: "100px", height: "100px" }}>{props.value} </button>
+      );
+    }
+    else {
+      return (
+        <button style={{ width: "100px", height: "100px", backgroundColor: "black" }}>{props.value} </button>
+      )
+    }
   }
 }
 
@@ -45,28 +60,31 @@ const Board = (props) => {
 
 
   //render squares
-  const renderSquare = () => {
+  const renderSquare = (row) => {
     let children = []
     for (let i = 0; i < (boardValue); i++) {
-
+      if (row % 2 === 0) {
         children.push(
-          <Square index={i} value={board[i]}></Square>
+          <Square index={i} value={board[i]} startBlack={true}></Square>
         );
+      }
+      else{
+        children.push(
+          <Square index={i} value={board[i]} startBlack={false}></Square>
+        );
+      }
     }
 
     return children;
   }
 
-
-
   //render the board
   const render = () => {
     let children = []
     for (let i = 0; i < (boardValue); i++) {
-      
-     
+
       children.push(
-        <div>{renderSquare(true)}</div>
+        <div>{renderSquare(i)}</div>
       );
     }
 
@@ -92,7 +110,6 @@ const Board = (props) => {
 
 
       {/* update the board */}
-      <button onClick={updateBoard}>change</button>
 
       {render()}
     </div>
